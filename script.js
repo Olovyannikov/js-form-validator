@@ -29,26 +29,25 @@ window.addEventListener('DOMContentLoaded', () => {
         return re.test(String(email).toLowerCase());
     }
 
+    //Get fieldname
+
+    const getFieldName = input =>
+        input.id.charAt(0).toUpperCase() + input.id.slice(1);
+
+    //Check required fields
+
+    const checkRequired = inputArr => {
+        inputArr.forEach((input) => {
+            input.value.trim() === '' ?
+                showError(input, `${getFieldName(input)} is required`) :
+                showSuccess(input);
+        });
+    }
+
     //Event listeners
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-        username.value === '' ?
-            showError(username, 'Username is required') :
-            showSuccess(username);
 
-        email.value === '' ?
-            showError(email, 'Email is required') :
-            isValidEmail(email.value) ?
-                showSuccess(email) :
-                showError(email, 'Email is not valid');
-
-
-        password.value === '' ?
-            showError(password, 'Password is required') :
-            showSuccess(password);
-
-        confirm.value === '' ?
-            showError(confirm, 'Password confirm is required') :
-            showSuccess(confirm);
+        checkRequired([username, email, password, confirm]);
     })
 });
